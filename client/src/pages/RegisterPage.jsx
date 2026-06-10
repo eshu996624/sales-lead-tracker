@@ -9,7 +9,8 @@ const RegisterPage = () => {
   const [form, setForm] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    role: 'admin'
   });
 
   const [error, setError] = useState('');
@@ -26,12 +27,10 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      await register({
-        ...form,
-        role: 'admin'
-      });
-
-      navigate('/admin');
+      const user = await register(form);
+      
+      if (user.role === 'admin') navigate('/admin');
+      else navigate('/sales');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed.');
     } finally {
@@ -45,11 +44,11 @@ const RegisterPage = () => {
         <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-3xl font-semibold">
-              Register Admin Account
+              Create Account
             </h1>
 
             <p className="mt-2 text-slate-400">
-              Create an admin account to access the dashboard and upload school data.
+              Register as a school principal or sales representative to access your dashboard.
             </p>
           </div>
 
@@ -103,13 +102,29 @@ const RegisterPage = () => {
             />
           </label>
 
+          <label className="block text-sm font-medium text-slate-300">
+            Account Type
+            <select
+              name="role"
+              value={form.role}
+              onChange={handleChange}
+              required
+              className="mt-2 w-full rounded-3xl border border-slate-700 bg-slate-900 px-4 py-3 text-white outline-none focus:border-brand-blue"
+            >
+              <option value="admin">School Principal (Admin)</option>
+              <option value="sales">Sales Representative</option>
+            </select>
+          </label>
+
           <div className="rounded-3xl bg-slate-950/70 p-5 text-slate-300">
             <p className="font-semibold text-white">
               After registration
             </p>
 
             <p className="mt-2 text-sm">
-              Login to the admin dashboard and upload your school CSV file.
+              {form.role === 'admin' 
+                ? 'Login to the principal dashboard and upload your school CSV file.' 
+                : 'Login to the sales dashboard to start managing leads.'}
             </p>
           </div>
 
@@ -118,7 +133,7 @@ const RegisterPage = () => {
             disabled={loading}
             className="rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-blue/30 hover:bg-brand-aqua"
           >
-            {loading ? 'Registering...' : 'Register Admin'}
+            {loading ? 'Registering...' : 'Create Account'}
           </button>
         </form>
       </div>

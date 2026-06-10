@@ -23,10 +23,10 @@ const LandingPage = () => {
             <div className="mt-2 text-slate-300">School Partnership Management System</div>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/login" className="rounded-full bg-brand-blue px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-blue/20 hover:bg-brand-aqua">
+            <Link to="/login?role=admin" className="rounded-full bg-brand-blue px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-blue/20 hover:bg-brand-aqua">
               Admin Login
             </Link>
-            <Link to="/login" className="rounded-full border border-slate-200/20 bg-white/10 px-5 py-3 text-sm text-slate-100 hover:bg-white/10">
+            <Link to="/login?role=sales" className="rounded-full border border-slate-200/20 bg-white/10 px-5 py-3 text-sm text-slate-100 hover:bg-white/10">
               Sales Login
             </Link>
           </div>
