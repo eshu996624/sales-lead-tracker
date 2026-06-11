@@ -10,6 +10,8 @@
     "dev": "concurrently \"npm run dev --workspace server\" \"npm run dev --workspace client\"",
     "start": "npm run start --workspace server",
     "build": "npm run build --workspace client"
+    ,
+    "heroku-postbuild": "npm run build --workspace client"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

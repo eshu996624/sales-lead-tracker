@@ -26,6 +26,12 @@ app.use('/api/export', exportRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', app: 'Qwings School Partnership Management' }));
 
+if (process.env.NODE_ENV === 'production') {
+  const clientDistPath = path.join(__dirname, '../../client/dist');
+  app.use(express.static(clientDistPath));
+  app.get('*', (req, res) => res.sendFile(path.join(clientDistPath, 'index.html')));
+}
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
