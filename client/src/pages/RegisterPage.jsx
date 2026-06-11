@@ -10,7 +10,13 @@ const RegisterPage = () => {
     name: '',
     email: '',
     password: '',
-    role: 'admin'
+    role: 'admin',
+    schoolName: '',
+    contactNumber: '',
+    address: '',
+    city: '',
+    state: '',
+    country: ''
   });
 
   const [error, setError] = useState('');
@@ -116,14 +122,31 @@ const RegisterPage = () => {
             </select>
           </label>
 
-          <div className="rounded-3xl bg-slate-950/70 p-5 text-slate-300">
-            <p className="font-semibold text-white">
-              After registration
-            </p>
+          {form.role === 'admin' && (
+            <div className="rounded-3xl bg-slate-950/70 p-5 text-slate-300">
+              <p className="font-semibold text-white">School details</p>
+              <div className="grid gap-4 md:grid-cols-2">
+                {['schoolName', 'contactNumber', 'address', 'city', 'state', 'country'].map((field) => (
+                  <label key={field} className="block text-sm font-medium text-slate-300">
+                    {field === 'schoolName' ? 'School Name' : field === 'contactNumber' ? 'Contact Number' : field.charAt(0).toUpperCase() + field.slice(1)}
+                    <input
+                      name={field}
+                      value={form[field]}
+                      onChange={handleChange}
+                      required
+                      className="mt-2 w-full rounded-3xl border border-slate-700 bg-slate-900 px-4 py-3 text-white outline-none focus:border-brand-blue"
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
 
+          <div className="rounded-3xl bg-slate-950/70 p-5 text-slate-300">
+            <p className="font-semibold text-white">After registration</p>
             <p className="mt-2 text-sm">
-              {form.role === 'admin' 
-                ? 'Login to the principal dashboard and upload your school CSV file.' 
+              {form.role === 'admin'
+                ? 'Login to the principal dashboard and upload your school CSV file.'
                 : 'Login to the sales dashboard to start managing leads.'}
             </p>
           </div>

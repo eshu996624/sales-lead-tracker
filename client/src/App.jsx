@@ -9,6 +9,8 @@ import AdminProfile from './pages/admin/AdminProfile';
 import CsvUploadPage from './pages/admin/CsvUploadPage';
 import AdminChat from './pages/admin/AdminChat';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
+import AdminSchools from './pages/admin/AdminSchools';
+import AdminUsers from './pages/admin/AdminUsers';
 import SalesDashboard from './pages/sales/SalesDashboard';
 import SalesLeads from './pages/sales/SalesLeads';
 import SalesAnalytics from './pages/sales/SalesAnalytics';
@@ -25,6 +27,8 @@ function App() {
         <Route index element={<AdminDashboard />} />
         <Route path="profile" element={<AdminProfile />} />
         <Route path="upload" element={<CsvUploadPage />} />
+        <Route path="schools" element={<AdminSchools />} />
+        <Route path="users" element={<AdminUsers />} />
         <Route path="chat" element={<AdminChat />} />
         <Route path="analytics" element={<AdminAnalytics />} />
       </Route>

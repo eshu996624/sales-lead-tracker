@@ -27,7 +27,10 @@ router.get('/', authenticate, authorize('sales'), async (req, res, next) => {
       query.$or = [
         { schoolName: { $regex: search, $options: 'i' } },
         { contactPerson: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } }
+        { email: { $regex: search, $options: 'i' } },
+        { address: { $regex: search, $options: 'i' } },
+        { city: { $regex: search, $options: 'i' } },
+        { state: { $regex: search, $options: 'i' } }
       ];
     }
     if (status) query.status = status;
@@ -44,10 +47,10 @@ router.get('/', authenticate, authorize('sales'), async (req, res, next) => {
 
 router.get('/stats', authenticate, authorize('sales'), async (req, res, next) => {
   try {
-    const statuses = ['New Lead', 'Hot Lead', 'Cold Lead', 'Proposal Sent', 'MOU Sent', 'Closed'];
+    const statuses = ['New Lead', 'Called', 'Hot Lead', 'Cold Lead', 'Proposal Sent', 'MOU Sent', 'Closed Won', 'Closed Lost'];
     const counts = await Promise.all(statuses.map(async (status) => ({ status, count: await Lead.countDocuments({ createdBy: req.user._id, status }) })));
     const totalLeads = counts.reduce((sum, item) => sum + item.count, 0);
-    const closed = counts.find((item) => item.status === 'Closed')?.count || 0;
+    const closed = counts.filter((item) => item.status.startsWith('Closed')).reduce((sum, item) => sum + item.count, 0);
     const conversionRate = totalLeads ? Math.round((closed / totalLeads) * 100) : 0;
     const monthlyGrowth = await Lead.aggregate([
       { $match: { createdBy: req.user._id } },

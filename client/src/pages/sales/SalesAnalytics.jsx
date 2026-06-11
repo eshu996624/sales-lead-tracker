@@ -27,7 +27,7 @@ const SalesAnalytics = () => {
       </div>
       <div className="grid gap-6 xl:grid-cols-3">
         <div className="rounded-3xl bg-white p-6 shadow-lg shadow-slate-200/40">
-          <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Total Schools</p>
+          <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Total Leads</p>
           <p className="mt-4 text-4xl font-semibold text-slate-900">{data.totalLeads}</p>
         </div>
         <div className="rounded-3xl bg-white p-6 shadow-lg shadow-slate-200/40">

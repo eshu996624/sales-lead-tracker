@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
 
-const statusOptions = ['New Lead', 'Hot Lead', 'Cold Lead', 'Proposal Sent', 'MOU Sent', 'Closed'];
+const statusOptions = ['New Lead', 'Called', 'Hot Lead', 'Cold Lead', 'Proposal Sent', 'MOU Sent', 'Closed Won', 'Closed Lost'];
 
 const SalesLeads = () => {
   const [leads, setLeads] = useState([]);
-  const [form, setForm] = useState({ schoolName: '', contactPerson: '', phoneNumber: '', email: '', address: '', state: '', city: '', notes: '', status: 'New Lead' });
+  const [form, setForm] = useState({ schoolName: '', contactPerson: '', phoneNumber: '', email: '', address: '', state: '', city: '', notes: '', followUpDate: '', status: 'New Lead' });
   const [search, setSearch] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const SalesLeads = () => {
     setMessage('');
     try {
       await api.post('/leads', form);
-      setForm({ schoolName: '', contactPerson: '', phoneNumber: '', email: '', address: '', state: '', city: '', notes: '', status: 'New Lead' });
+      setForm({ schoolName: '', contactPerson: '', phoneNumber: '', email: '', address: '', state: '', city: '', notes: '', followUpDate: '', status: 'New Lead' });
       setMessage('Lead added successfully.');
       loadLeads();
     } catch (error) {
@@ -81,6 +81,15 @@ const SalesLeads = () => {
               </label>
             ))}
             <label className="block text-sm font-medium text-slate-700">
+              Follow-Up Date
+              <input
+                value={form.followUpDate}
+                onChange={(e) => handleChange('followUpDate', e.target.value)}
+                type="date"
+                className="mt-2 w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 outline-none focus:border-brand-blue"
+              />
+            </label>
+            <label className="block text-sm font-medium text-slate-700">
               Lead Status
               <select value={form.status} onChange={(e) => handleChange('status', e.target.value)} className="mt-2 w-full rounded-3xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-brand-blue">
                 {statusOptions.map((status) => <option key={status} value={status}>{status}</option>)}
@@ -110,6 +119,7 @@ const SalesLeads = () => {
                 <th className="px-4 py-3 font-semibold text-slate-700">School</th>
                 <th className="px-4 py-3 font-semibold text-slate-700">Contact</th>
                 <th className="px-4 py-3 font-semibold text-slate-700">Status</th>
+                <th className="px-4 py-3 font-semibold text-slate-700">Follow-Up</th>
                 <th className="px-4 py-3 font-semibold text-slate-700">Actions</th>
               </tr>
             </thead>
@@ -119,6 +129,7 @@ const SalesLeads = () => {
                   <td className="px-4 py-4 text-slate-800">{lead.schoolName}</td>
                   <td className="px-4 py-4 text-slate-800">{lead.contactPerson} • {lead.phoneNumber}</td>
                   <td className="px-4 py-4 text-slate-800">{lead.status}</td>
+                  <td className="px-4 py-4 text-slate-800">{lead.followUpDate ? new Date(lead.followUpDate).toLocaleDateString() : '—'}</td>
                   <td className="px-4 py-4 space-x-2">
                     <select value={lead.status} onChange={(e) => updateStatus(lead._id, e.target.value)} className="rounded-full border border-slate-300 px-3 py-2 text-sm outline-none">
                       {statusOptions.map((status) => <option key={status} value={status}>{status}</option>)}
@@ -129,7 +140,7 @@ const SalesLeads = () => {
               ))}
               {!leads.length && (
                 <tr>
-                  <td colSpan="4" className="px-4 py-6 text-center text-slate-500">No leads found based on the current filters.</td>
+                  <td colSpan="5" className="px-4 py-6 text-center text-slate-500">No leads found based on the current filters.</td>
                 </tr>
               )}
             </tbody>

@@ -8,7 +8,8 @@ const defaultProfile = {
   email: '',
   address: '',
   state: '',
-  city: ''
+  city: '',
+  country: ''
 };
 
 const AdminProfile = () => {
@@ -48,9 +49,21 @@ const AdminProfile = () => {
       <form onSubmit={saveProfile} className="grid gap-6 rounded-3xl bg-white p-8 shadow-lg shadow-slate-200/40">
         {message && <div className="rounded-3xl bg-brand-blue/10 p-4 text-brand-blue">{message}</div>}
         <div className="grid gap-5 md:grid-cols-2">
-          {['schoolName', 'principalName', 'contactNumber', 'email', 'address', 'state', 'city'].map((field) => (
+          {['schoolName', 'principalName', 'contactNumber', 'email', 'address', 'city', 'state', 'country'].map((field) => (
             <label key={field} className="block text-sm font-medium text-slate-700">
-              {field === 'schoolName' ? 'School Name' : field === 'principalName' ? 'Principal Name' : field === 'contactNumber' ? 'Contact Number' : field === 'email' ? 'Email' : field === 'address' ? 'Address' : field === 'state' ? 'State' : 'City'}
+              {field === 'schoolName'
+                ? 'School Name'
+                : field === 'principalName'
+                ? 'Principal Name'
+                : field === 'contactNumber'
+                ? 'Contact Number'
+                : field === 'email'
+                ? 'Email'
+                : field === 'address'
+                ? 'Address'
+                : field === 'city'
+                ? 'City'
+                : 'State'}
               <input
                 value={profile[field]}
                 onChange={(e) => handleChange(field, e.target.value)}
